@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <title>سفارش آیدی کارت</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      direction: rtl;
+      background: #f2f2f2;
+      padding: 30px;
+      text-align: center;
+    }
+    input, button, select {
+      padding: 10px;
+      margin-top: 10px;
+      width: 80%;
+      font-size: 16px;
+    }
+    .field {
+      margin-bottom: 25px;
+    }
+    .label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+    }
+    .hint {
+      color: #666;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>سفارش آیدی کارت</h2>
+
+  <form id="idForm" enctype="multipart/form-data">
+    <div class="field">
+      <label class="label">نام کامل</label>
+      <input type="text" name="name" required>
+      <div class="hint">نام دقیقی که در سایت احراز هویت وارد کرده‌اید.</div>
+    </div>
+
+    <div class="field">
+      <label class="label">ایمیل</label>
+      <input type="email" name="email" required>
+      <div class="hint">ایمیلی که بتوانیم آیدی کارت را برای شما ارسال کنیم.</div>
+    </div>
+
+    <div class="field">
+      <label class="label">تاریخ تولد</label>
+      <input type="date" name="dob" required>
+      <div class="hint">سن شما نباید کمتر از ۱۸ سال باشد.</div>
+    </div>
+
+    <div class="field">
+      <label class="label">کشور</label>
+      <select name="country" required>
+        <option value="">انتخاب کشور</option>
+        <option value="آذربایجان">آذربایجان</option>
+        <option value="آمریکا">آمریکا</option>
+        <option value="امارات">امارات</option>
+        <option value="ترکیه">ترکیه</option>
+        <option value="اسپانیا">اسپانیا</option>
+        <option value="آلمان">آلمان</option>
+        <option value="انگلستان">انگلستان</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="label">عکس چهره</label>
+      <input type="file" name="photo" accept="image/*" required>
+      <div class="hint">عکس باید واضح و بدون عینک باشد.</div>
+    </div>
+
+    <div class="field">
+      <label class="label">رسید پرداخت</label>
+      <input type="file" name="receipt" accept="image/*" required>
+      <div class="hint">رسید پرداخت از درگاه را بارگذاری کنید.</div>
+    </div>
+
+    <button type="submit">ارسال اطلاعات</button>
+  </form>
+
+  <div id="response" style="margin-top: 20px; color: green;"></div>
+
+  <script>
+    document.getElementById('idForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+
+      const res = await fetch('/submit', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await res.text();
+      document.getElementById('response').innerText = result;
+      form.reset();
+    });
+  </script>
+</body>
+</html>
